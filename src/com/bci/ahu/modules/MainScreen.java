@@ -1,0 +1,1783 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bci.ahu.modules;
+
+import com.bci.ahu.businesslayer.BlUser;
+import com.bci.ahu.dataobjets.CurrentUser;
+import com.bci.ahu.dataobjets.User;
+import java.awt.Color;
+import java.awt.HeadlessException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author Somnath Shirkule
+ */
+public class MainScreen extends javax.swing.JFrame {
+    private final Thread timerThread;
+    private final BlUser obj = new BlUser();
+    /**
+     * Creates new form MainScreen
+     */
+    public MainScreen() {
+        setUndecorated(true);
+        initComponents();
+        timerThread = new Thread(() -> {
+            while(true)
+            {
+                int rHrs = new Date().getHours();
+                int rMns = new Date().getMinutes();
+                int rSec = new Date().getSeconds();
+                int hrs = 0;
+                String mHrs = "", mMns = "", mSec ="";
+                if(String.valueOf(rMns).length() == 2)
+                {
+                    mMns = String.valueOf(rMns);
+                }
+                else if(String.valueOf(rMns).length() == 1)
+                {
+                    mMns = "0" + String.valueOf(rMns);
+                }
+                if(String.valueOf(rSec).length() == 2)
+                {
+                    mSec = String.valueOf(rSec);
+                }
+                else if(String.valueOf(rSec).length() == 1)
+                {
+                    mSec = "0" + String.valueOf(rSec);
+                }
+                if(rHrs>12)
+                {
+                    hrs = rHrs - 12;
+                    if(String.valueOf(hrs).length() == 1)
+                    {
+                        mHrs = "0" + hrs;
+                    }
+                    else
+                    {
+                        mHrs = String.valueOf(hrs);
+                    }
+                }
+                else
+                {
+                    if(String.valueOf(rHrs).length() == 1)
+                    {
+                        mHrs = "0" + hrs;
+                    }
+                    else
+                    {
+                        mHrs = String.valueOf(rHrs);
+                    }
+                }
+                if(rHrs>12)
+                {
+                    userToShow.setText(CurrentUser.getUserId() + " | " + mHrs + ":" + mMns + ":" + mSec + " PM"); 
+                }
+                else
+                {
+                    userToShow.setText(CurrentUser.getUserId() + " | " + mHrs + ":" + mMns + ":" + mSec + " AM"); 
+                }
+                   
+            }
+        });
+        timerThread.start();
+        closeAllScreens();
+        loadData();
+    }
+    
+    //to load fixed data in all forms
+    private void loadData()
+    {
+        if(!CurrentUser.getRights().contains("101"))
+        {
+            menuAhu.hide();
+        }
+        if(!CurrentUser.getRights().contains("102"))
+        {
+            menuUser.hide();
+        }
+        if(!CurrentUser.getRights().contains("103"))
+        {
+            menuUserRights.hide();
+        }
+        if(!CurrentUser.getRights().contains("104"))
+        {
+            menuPrinting.hide();
+        }
+        if(!CurrentUser.getRights().contains("105"))
+        {
+            menuFilterVersion.hide();
+        }
+        if(!CurrentUser.getRights().contains("106"))
+        {
+            menuInScanning.hide();
+        }
+        if(!CurrentUser.getRights().contains("107"))
+        {
+            menuOutScanning.hide();
+        }
+        if(!CurrentUser.getRights().contains("108"))
+        {
+            menuReports.hide();
+        }
+    }
+    //to close all active screens
+    private void closeAllScreens()
+    {
+        try{
+            //welcomeText1.setVisible(false);
+            //welcomeText2.setVisible(false);
+            ahuScreen.setVisible(false);
+            userScreen.setVisible(false);
+            printingScreen.setVisible(false);
+            changeFilterScreen.setVisible(false);
+            inScanningScreen.setVisible(false);
+            outScanningScreen.setVisible(false);
+            reportsScreen.setVisible(false);
+            rightsScreen.setVisible(false);
+        }
+        catch(Exception ex)
+        {
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        menuAhu = new javax.swing.JLabel();
+        menuLogout = new javax.swing.JLabel();
+        menuUser = new javax.swing.JLabel();
+        menuPrinting = new javax.swing.JLabel();
+        menuFilterVersion = new javax.swing.JLabel();
+        menuInScanning = new javax.swing.JLabel();
+        menuOutScanning = new javax.swing.JLabel();
+        userToShow = new javax.swing.JLabel();
+        menuReports = new javax.swing.JLabel();
+        menuUserRights = new javax.swing.JLabel();
+        mainPanel = new javax.swing.JPanel();
+        welcomeText2 = new javax.swing.JLabel();
+        ahuScreen = new javax.swing.JInternalFrame();
+        jLabel7 = new javax.swing.JLabel();
+        ahuId1 = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        area1 = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
+        btnAdd1 = new javax.swing.JLabel();
+        btnEdit1 = new javax.swing.JLabel();
+        btnDelete1 = new javax.swing.JLabel();
+        btnClear1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        ahuTable = new javax.swing.JTable();
+        userScreen = new javax.swing.JInternalFrame();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        userText1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        passText1 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        typeCmb1 = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        userIdText1 = new javax.swing.JTextField();
+        activeUser1 = new javax.swing.JCheckBox();
+        jPanel3 = new javax.swing.JPanel();
+        btnAdd = new javax.swing.JLabel();
+        btnEdit = new javax.swing.JLabel();
+        btnDelete = new javax.swing.JLabel();
+        btnClear = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        userTable = new javax.swing.JTable();
+        printingScreen = new javax.swing.JInternalFrame();
+        changeFilterScreen = new javax.swing.JInternalFrame();
+        inScanningScreen = new javax.swing.JInternalFrame();
+        outScanningScreen = new javax.swing.JInternalFrame();
+        reportsScreen = new javax.swing.JInternalFrame();
+        rightsScreen = new javax.swing.JInternalFrame();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        cmbUser2 = new javax.swing.JComboBox<>();
+        jPanel5 = new javax.swing.JPanel();
+        btnRightsSave = new javax.swing.JLabel();
+        btnRightsClear = new javax.swing.JLabel();
+        rightsAhuMaster = new javax.swing.JCheckBox();
+        rightsUserMaster = new javax.swing.JCheckBox();
+        rightsUserRights = new javax.swing.JCheckBox();
+        rightsLabelPrinting = new javax.swing.JCheckBox();
+        rightsFilterVesion = new javax.swing.JCheckBox();
+        rightsInScanning = new javax.swing.JCheckBox();
+        rightsOutScanning = new javax.swing.JCheckBox();
+        rightsReports = new javax.swing.JCheckBox();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(java.awt.Color.white);
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/images/download.png"))); // NOI18N
+
+        menuAhu.setBackground(java.awt.Color.white);
+        menuAhu.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        menuAhu.setForeground(new java.awt.Color(0, 0, 51));
+        menuAhu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        menuAhu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/Master Sergeant MSG_25px.png"))); // NOI18N
+        menuAhu.setText("AHU Master");
+        menuAhu.setOpaque(true);
+        menuAhu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                menuAhuMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                menuAhuMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                menuAhuMousePressed(evt);
+            }
+        });
+
+        menuLogout.setBackground(java.awt.Color.white);
+        menuLogout.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        menuLogout.setForeground(new java.awt.Color(255, 51, 51));
+        menuLogout.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        menuLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/Export_25px.png"))); // NOI18N
+        menuLogout.setText("Log Out");
+        menuLogout.setOpaque(true);
+        menuLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                menuLogoutMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                menuLogoutMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                menuLogoutMousePressed(evt);
+            }
+        });
+
+        menuUser.setBackground(java.awt.Color.white);
+        menuUser.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        menuUser.setForeground(new java.awt.Color(0, 0, 51));
+        menuUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        menuUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/Add User Group Man Man_25px.png"))); // NOI18N
+        menuUser.setText("User Master");
+        menuUser.setOpaque(true);
+        menuUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                menuUserMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                menuUserMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                menuUserMousePressed(evt);
+            }
+        });
+
+        menuPrinting.setBackground(java.awt.Color.white);
+        menuPrinting.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        menuPrinting.setForeground(new java.awt.Color(0, 0, 51));
+        menuPrinting.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        menuPrinting.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/Print_25px.png"))); // NOI18N
+        menuPrinting.setText("Label Printing");
+        menuPrinting.setOpaque(true);
+        menuPrinting.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                menuPrintingMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                menuPrintingMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                menuPrintingMousePressed(evt);
+            }
+        });
+
+        menuFilterVersion.setBackground(java.awt.Color.white);
+        menuFilterVersion.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        menuFilterVersion.setForeground(new java.awt.Color(0, 0, 51));
+        menuFilterVersion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        menuFilterVersion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/Versions_25px.png"))); // NOI18N
+        menuFilterVersion.setText("Change Filter Version");
+        menuFilterVersion.setOpaque(true);
+        menuFilterVersion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                menuFilterVersionMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                menuFilterVersionMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                menuFilterVersionMousePressed(evt);
+            }
+        });
+
+        menuInScanning.setBackground(java.awt.Color.white);
+        menuInScanning.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        menuInScanning.setForeground(new java.awt.Color(0, 0, 51));
+        menuInScanning.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        menuInScanning.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/Barcode_25px.png"))); // NOI18N
+        menuInScanning.setText("In Scanning");
+        menuInScanning.setOpaque(true);
+        menuInScanning.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                menuInScanningMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                menuInScanningMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                menuInScanningMousePressed(evt);
+            }
+        });
+
+        menuOutScanning.setBackground(java.awt.Color.white);
+        menuOutScanning.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        menuOutScanning.setForeground(new java.awt.Color(0, 0, 51));
+        menuOutScanning.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        menuOutScanning.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/Refresh Barcode_25px.png"))); // NOI18N
+        menuOutScanning.setText("Out Scanning");
+        menuOutScanning.setOpaque(true);
+        menuOutScanning.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                menuOutScanningMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                menuOutScanningMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                menuOutScanningMousePressed(evt);
+            }
+        });
+
+        userToShow.setBackground(new java.awt.Color(222, 222, 222));
+        userToShow.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        userToShow.setForeground(new java.awt.Color(51, 153, 0));
+        userToShow.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        userToShow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/User_25px.png"))); // NOI18N
+        userToShow.setOpaque(true);
+        userToShow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                userToShowMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                userToShowMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                userToShowMousePressed(evt);
+            }
+        });
+
+        menuReports.setBackground(java.awt.Color.white);
+        menuReports.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        menuReports.setForeground(new java.awt.Color(0, 0, 51));
+        menuReports.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        menuReports.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/Combo Chart_25px.png"))); // NOI18N
+        menuReports.setText("Reports");
+        menuReports.setOpaque(true);
+        menuReports.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                menuReportsMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                menuReportsMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                menuReportsMousePressed(evt);
+            }
+        });
+
+        menuUserRights.setBackground(java.awt.Color.white);
+        menuUserRights.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        menuUserRights.setForeground(new java.awt.Color(0, 0, 51));
+        menuUserRights.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        menuUserRights.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/Oppression_25px.png"))); // NOI18N
+        menuUserRights.setText("User Rights");
+        menuUserRights.setOpaque(true);
+        menuUserRights.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                menuUserRightsMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                menuUserRightsMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                menuUserRightsMousePressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(jLabel1)
+                .addContainerGap(37, Short.MAX_VALUE))
+            .addComponent(menuAhu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(menuUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(menuPrinting, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(menuFilterVersion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(menuInScanning, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(menuOutScanning, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(menuLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(userToShow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(menuReports, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(menuUserRights, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addGap(28, 28, 28)
+                .addComponent(menuAhu, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(menuUser, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(menuUserRights, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(menuPrinting, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(menuFilterVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(menuInScanning, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(menuOutScanning, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(menuReports, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(menuLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(userToShow, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        mainPanel.setBackground(new java.awt.Color(0, 0, 51));
+
+        welcomeText2.setFont(new java.awt.Font("Ebrima", 1, 48)); // NOI18N
+        welcomeText2.setForeground(java.awt.Color.white);
+        welcomeText2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        welcomeText2.setText("AHU MANAGEMENT SYSTEM");
+        welcomeText2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        ahuScreen.setBackground(new java.awt.Color(255, 255, 255));
+        ahuScreen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        ahuScreen.setTitle("AHU Master");
+        ahuScreen.setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/Master Sergeant MSG_25px.png"))); // NOI18N
+        ahuScreen.setVisible(true);
+
+        jLabel7.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 51));
+        jLabel7.setText("Enter AHU ID:");
+
+        jLabel8.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 0, 51));
+        jLabel8.setText("Enter Area:");
+
+        jPanel6.setBackground(new java.awt.Color(0, 0, 51));
+
+        btnAdd1.setBackground(java.awt.Color.white);
+        btnAdd1.setForeground(new java.awt.Color(0, 0, 51));
+        btnAdd1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnAdd1.setText("Add");
+        btnAdd1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAdd1.setOpaque(true);
+        btnAdd1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAdd1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAdd1MouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnAdd1MousePressed(evt);
+            }
+        });
+
+        btnEdit1.setBackground(java.awt.Color.white);
+        btnEdit1.setForeground(new java.awt.Color(0, 0, 51));
+        btnEdit1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnEdit1.setText("Edit");
+        btnEdit1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEdit1.setOpaque(true);
+        btnEdit1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnEdit1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnEdit1MouseExited(evt);
+            }
+        });
+
+        btnDelete1.setBackground(java.awt.Color.white);
+        btnDelete1.setForeground(new java.awt.Color(0, 0, 51));
+        btnDelete1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnDelete1.setText("Delete");
+        btnDelete1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDelete1.setOpaque(true);
+        btnDelete1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDelete1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDelete1MouseExited(evt);
+            }
+        });
+
+        btnClear1.setBackground(java.awt.Color.white);
+        btnClear1.setForeground(new java.awt.Color(0, 0, 51));
+        btnClear1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnClear1.setText("Clear");
+        btnClear1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnClear1.setOpaque(true);
+        btnClear1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnClear1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnClear1MouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(btnAdd1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(btnEdit1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
+                .addComponent(btnDelete1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(btnClear1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(612, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnDelete1, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addComponent(btnClear1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEdit1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAdd1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        ahuTable.setBackground(new java.awt.Color(255, 255, 255));
+        ahuTable.setFont(new java.awt.Font("Ebrima", 0, 14)); // NOI18N
+        ahuTable.setForeground(new java.awt.Color(0, 0, 51));
+        ahuTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "AHU ID", "Area"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        ahuTable.setCellSelectionEnabled(true);
+        ahuTable.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ahuTable.setDoubleBuffered(true);
+        ahuTable.setName(""); // NOI18N
+        ahuTable.setRowHeight(20);
+        ahuTable.setRowMargin(2);
+        ahuTable.setSelectionBackground(new java.awt.Color(0, 0, 51));
+        ahuTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        ahuTable.setShowHorizontalLines(false);
+        ahuTable.setShowVerticalLines(false);
+        jScrollPane2.setViewportView(ahuTable);
+
+        javax.swing.GroupLayout ahuScreenLayout = new javax.swing.GroupLayout(ahuScreen.getContentPane());
+        ahuScreen.getContentPane().setLayout(ahuScreenLayout);
+        ahuScreenLayout.setHorizontalGroup(
+            ahuScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(ahuScreenLayout.createSequentialGroup()
+                .addGroup(ahuScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ahuScreenLayout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(ahuScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(ahuScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(ahuId1)
+                            .addComponent(area1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(ahuScreenLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 616, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        ahuScreenLayout.setVerticalGroup(
+            ahuScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ahuScreenLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(ahuScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(ahuId1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(ahuScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(area1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(10, Short.MAX_VALUE))
+        );
+
+        userScreen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        userScreen.setTitle("User Master");
+        userScreen.setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/Add User Group Man Man_25px.png"))); // NOI18N
+        userScreen.setVisible(true);
+
+        jPanel2.setBackground(java.awt.Color.white);
+
+        jLabel2.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 51));
+        jLabel2.setText("Enter Username:");
+
+        jLabel3.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 51));
+        jLabel3.setText("Enter Password:");
+
+        jLabel4.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 51));
+        jLabel4.setText("Select Type:");
+
+        jLabel5.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 51));
+        jLabel5.setText("Enter User ID:");
+
+        activeUser1.setText("Active");
+
+        jPanel3.setBackground(new java.awt.Color(0, 0, 51));
+
+        btnAdd.setBackground(java.awt.Color.white);
+        btnAdd.setForeground(new java.awt.Color(0, 0, 51));
+        btnAdd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnAdd.setText("Add");
+        btnAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAdd.setOpaque(true);
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAddMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAddMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnAddMousePressed(evt);
+            }
+        });
+
+        btnEdit.setBackground(java.awt.Color.white);
+        btnEdit.setForeground(new java.awt.Color(0, 0, 51));
+        btnEdit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnEdit.setText("Edit");
+        btnEdit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEdit.setOpaque(true);
+        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnEditMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnEditMouseExited(evt);
+            }
+        });
+
+        btnDelete.setBackground(java.awt.Color.white);
+        btnDelete.setForeground(new java.awt.Color(0, 0, 51));
+        btnDelete.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnDelete.setText("Delete");
+        btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDelete.setOpaque(true);
+        btnDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDeleteMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDeleteMouseExited(evt);
+            }
+        });
+
+        btnClear.setBackground(java.awt.Color.white);
+        btnClear.setForeground(new java.awt.Color(0, 0, 51));
+        btnClear.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnClear.setText("Clear");
+        btnClear.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnClear.setOpaque(true);
+        btnClear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnClearMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnClearMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        userTable.setBackground(new java.awt.Color(255, 255, 255));
+        userTable.setFont(new java.awt.Font("Ebrima", 0, 14)); // NOI18N
+        userTable.setForeground(new java.awt.Color(0, 0, 51));
+        userTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "User ID", "Username", "Type", "Status"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        userTable.setCellSelectionEnabled(true);
+        userTable.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        userTable.setDoubleBuffered(true);
+        userTable.setName(""); // NOI18N
+        userTable.setRowHeight(20);
+        userTable.setRowMargin(2);
+        userTable.setSelectionBackground(new java.awt.Color(0, 0, 51));
+        userTable.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        userTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        userTable.setShowHorizontalLines(false);
+        userTable.setShowVerticalLines(false);
+        jScrollPane1.setViewportView(userTable);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(activeUser1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(userText1, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                                    .addComponent(userIdText1))
+                                .addGap(51, 51, 51)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(typeCmb1, 0, 210, Short.MAX_VALUE)
+                                    .addComponent(passText1)))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 723, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(userText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(passText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(typeCmb1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(userIdText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(activeUser1)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout userScreenLayout = new javax.swing.GroupLayout(userScreen.getContentPane());
+        userScreen.getContentPane().setLayout(userScreenLayout);
+        userScreenLayout.setHorizontalGroup(
+            userScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        userScreenLayout.setVerticalGroup(
+            userScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        printingScreen.setBackground(new java.awt.Color(255, 255, 255));
+        printingScreen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        printingScreen.setTitle("Label Printing");
+        printingScreen.setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/Print_25px.png"))); // NOI18N
+        printingScreen.setVisible(true);
+
+        javax.swing.GroupLayout printingScreenLayout = new javax.swing.GroupLayout(printingScreen.getContentPane());
+        printingScreen.getContentPane().setLayout(printingScreenLayout);
+        printingScreenLayout.setHorizontalGroup(
+            printingScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        printingScreenLayout.setVerticalGroup(
+            printingScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 419, Short.MAX_VALUE)
+        );
+
+        changeFilterScreen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        changeFilterScreen.setTitle("Change Filter Version");
+        changeFilterScreen.setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/Versions_25px.png"))); // NOI18N
+        changeFilterScreen.setVisible(true);
+
+        javax.swing.GroupLayout changeFilterScreenLayout = new javax.swing.GroupLayout(changeFilterScreen.getContentPane());
+        changeFilterScreen.getContentPane().setLayout(changeFilterScreenLayout);
+        changeFilterScreenLayout.setHorizontalGroup(
+            changeFilterScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        changeFilterScreenLayout.setVerticalGroup(
+            changeFilterScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 392, Short.MAX_VALUE)
+        );
+
+        inScanningScreen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        inScanningScreen.setTitle("Filter In Scanning");
+        inScanningScreen.setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/Barcode_25px.png"))); // NOI18N
+        inScanningScreen.setVisible(true);
+
+        javax.swing.GroupLayout inScanningScreenLayout = new javax.swing.GroupLayout(inScanningScreen.getContentPane());
+        inScanningScreen.getContentPane().setLayout(inScanningScreenLayout);
+        inScanningScreenLayout.setHorizontalGroup(
+            inScanningScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        inScanningScreenLayout.setVerticalGroup(
+            inScanningScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 488, Short.MAX_VALUE)
+        );
+
+        outScanningScreen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        outScanningScreen.setTitle("Filter Out Scanning");
+        outScanningScreen.setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/Refresh Barcode_25px.png"))); // NOI18N
+        outScanningScreen.setVisible(true);
+
+        javax.swing.GroupLayout outScanningScreenLayout = new javax.swing.GroupLayout(outScanningScreen.getContentPane());
+        outScanningScreen.getContentPane().setLayout(outScanningScreenLayout);
+        outScanningScreenLayout.setHorizontalGroup(
+            outScanningScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        outScanningScreenLayout.setVerticalGroup(
+            outScanningScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 631, Short.MAX_VALUE)
+        );
+
+        reportsScreen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        reportsScreen.setTitle("Reports");
+        reportsScreen.setToolTipText("");
+        reportsScreen.setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/Combo Chart_25px.png"))); // NOI18N
+        reportsScreen.setVisible(true);
+
+        javax.swing.GroupLayout reportsScreenLayout = new javax.swing.GroupLayout(reportsScreen.getContentPane());
+        reportsScreen.getContentPane().setLayout(reportsScreenLayout);
+        reportsScreenLayout.setHorizontalGroup(
+            reportsScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        reportsScreenLayout.setVerticalGroup(
+            reportsScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 571, Short.MAX_VALUE)
+        );
+
+        rightsScreen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        rightsScreen.setTitle("User Rights");
+        rightsScreen.setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/com/bci/ahu/icons/Oppression_25px.png"))); // NOI18N
+        rightsScreen.setVisible(true);
+
+        jPanel4.setBackground(java.awt.Color.white);
+
+        jLabel6.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 51));
+        jLabel6.setText("Select Type:");
+
+        cmbUser2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbUser2ItemStateChanged(evt);
+            }
+        });
+
+        jPanel5.setBackground(new java.awt.Color(0, 0, 51));
+
+        btnRightsSave.setBackground(java.awt.Color.white);
+        btnRightsSave.setForeground(new java.awt.Color(0, 0, 51));
+        btnRightsSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnRightsSave.setText("Save");
+        btnRightsSave.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRightsSave.setOpaque(true);
+        btnRightsSave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnRightsSaveMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnRightsSaveMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnRightsSaveMousePressed(evt);
+            }
+        });
+
+        btnRightsClear.setBackground(java.awt.Color.white);
+        btnRightsClear.setForeground(new java.awt.Color(0, 0, 51));
+        btnRightsClear.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnRightsClear.setText("Clear");
+        btnRightsClear.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRightsClear.setOpaque(true);
+        btnRightsClear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnRightsClearMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnRightsClearMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnRightsClearMousePressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(btnRightsSave, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(btnRightsClear, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnRightsClear, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addComponent(btnRightsSave, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        rightsAhuMaster.setText("AHU Master");
+
+        rightsUserMaster.setText("User Master");
+
+        rightsUserRights.setText("User Rights");
+
+        rightsLabelPrinting.setText("Label Printing");
+
+        rightsFilterVesion.setText("Change Filter Version");
+
+        rightsInScanning.setText("Filter In Scanning");
+
+        rightsOutScanning.setText("Filter Out Scanning");
+
+        rightsReports.setText("Reports");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmbUser2, 0, 235, Short.MAX_VALUE)
+                .addGap(769, 769, 769))
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rightsReports, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rightsOutScanning, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rightsInScanning, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rightsFilterVesion, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rightsLabelPrinting, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rightsUserRights, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rightsUserMaster, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rightsAhuMaster, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(cmbUser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(rightsAhuMaster)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rightsUserMaster)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rightsUserRights)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rightsLabelPrinting)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rightsFilterVesion)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rightsInScanning)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rightsOutScanning)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rightsReports)
+                .addContainerGap(102, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout rightsScreenLayout = new javax.swing.GroupLayout(rightsScreen.getContentPane());
+        rightsScreen.getContentPane().setLayout(rightsScreenLayout);
+        rightsScreenLayout.setHorizontalGroup(
+            rightsScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        rightsScreenLayout.setVerticalGroup(
+            rightsScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(rightsScreenLayout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(ahuScreen)
+            .addComponent(userScreen)
+            .addComponent(printingScreen)
+            .addComponent(changeFilterScreen)
+            .addComponent(inScanningScreen)
+            .addComponent(outScanningScreen)
+            .addComponent(reportsScreen)
+            .addComponent(rightsScreen)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGap(214, 214, 214)
+                .addComponent(welcomeText2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addComponent(ahuScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(userScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(printingScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(changeFilterScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(inScanningScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(outScanningScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(reportsScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rightsScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addComponent(welcomeText2)
+                .addGap(31, 31, 31))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void menuAhuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAhuMousePressed
+        // TODO add your handling code here:
+        closeAllScreens();
+        ahuScreen.setVisible(true);
+    }//GEN-LAST:event_menuAhuMousePressed
+
+    private void menuAhuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAhuMouseEntered
+        // TODO add your handling code here:
+        menuAhu.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_menuAhuMouseEntered
+
+    private void menuAhuMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAhuMouseExited
+        // TODO add your handling code here:
+        menuAhu.setBackground(Color.WHITE);
+    }//GEN-LAST:event_menuAhuMouseExited
+
+    private void menuLogoutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuLogoutMouseEntered
+        // TODO add your handling code here:
+        menuLogout.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_menuLogoutMouseEntered
+
+    private void menuLogoutMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuLogoutMouseExited
+        // TODO add your handling code here:
+        menuLogout.setBackground(Color.WHITE);
+    }//GEN-LAST:event_menuLogoutMouseExited
+
+    private void menuLogoutMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuLogoutMousePressed
+        // TODO add your handling code here:
+         try
+        {
+            int result = JOptionPane.showConfirmDialog(this,"Sure? You want to Logout?", "Log Out",
+               JOptionPane.YES_NO_OPTION,
+               JOptionPane.QUESTION_MESSAGE);
+            if(result == JOptionPane.YES_OPTION){
+               timerThread.stop();
+                this.hide();
+                this.dispose();
+                new LoginForm().show();
+            }else if (result == JOptionPane.NO_OPTION){
+               
+            }else {
+               
+            }
+            
+            
+        }
+        catch(HeadlessException ex)
+        {
+            JOptionPane.showMessageDialog(this,ex.toString(),"ERROR",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_menuLogoutMousePressed
+
+    private void menuUserMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuUserMouseEntered
+        // TODO add your handling code here:
+        menuUser.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_menuUserMouseEntered
+
+    private void menuUserMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuUserMouseExited
+        // TODO add your handling code here:
+        menuUser.setBackground(Color.WHITE);
+    }//GEN-LAST:event_menuUserMouseExited
+
+    private void menuUserMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuUserMousePressed
+        // TODO add your handling code here
+        closeAllScreens();
+        typeCmb1.removeAllItems();
+        userScreen.setVisible(true);
+        disableControlsForUserMaster();
+        btnAdd.setText("Add");
+        ArrayList ar = obj.getUserTypes();
+        Iterator it = ar.iterator();
+        while(it.hasNext())
+        {
+            typeCmb1.addItem(it.next().toString());
+        }
+        loadUserList();
+        ar.clear();
+    }//GEN-LAST:event_menuUserMousePressed
+    private void loadUserList()
+    {
+        HashSet<User> userList = obj.getUserList();
+        DefaultTableModel model = (DefaultTableModel)userTable.getModel();
+        DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
+        cellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        model.setRowCount(0);
+        Object[] objUser = new Object[4];
+        Iterator it = userList.iterator();
+        while(it.hasNext())
+        {
+            User lUser = (User) it.next();
+            objUser[0] = lUser.getUserId();
+            objUser[1] = lUser.getUsername();
+            objUser[2] = lUser.getType();
+            if(lUser.getStatus().trim().equals("1"))
+            {
+                objUser[3] = "Active";
+            }
+            else
+            {
+                objUser[3] = "InActive";
+            }
+            model.addRow(objUser);
+            userTable.getColumnModel().getColumn(0).setCellRenderer(cellRenderer);
+            userTable.getColumnModel().getColumn(1).setCellRenderer(cellRenderer);
+            userTable.getColumnModel().getColumn(2).setCellRenderer(cellRenderer);
+            userTable.getColumnModel().getColumn(3).setCellRenderer(cellRenderer);
+        }
+        //userTable.getColumnModel().getColumn(count + 1).setCellRenderer(cellRenderer);
+        userList.clear();
+    }
+    private void disableControlsForUserMaster()
+    {
+        userText1.setEditable(false);
+        passText1.setEditable(false);
+        userIdText1.setEditable(false);
+        typeCmb1.setEnabled(false);
+        activeUser1.setEnabled(false);
+    }
+    private void enableControlsForUserMaster()
+    {
+        userText1.setEditable(true);
+        passText1.setEditable(true);
+        userIdText1.setEditable(true);
+        typeCmb1.setEnabled(true);
+        activeUser1.setEnabled(true);
+    }
+    private void menuPrintingMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuPrintingMouseEntered
+        // TODO add your handling code here:
+        menuPrinting.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_menuPrintingMouseEntered
+
+    private void menuPrintingMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuPrintingMouseExited
+        // TODO add your handling code here:
+        menuPrinting.setBackground(Color.WHITE);
+    }//GEN-LAST:event_menuPrintingMouseExited
+
+    private void menuPrintingMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuPrintingMousePressed
+        // TODO add your handling code here:
+        closeAllScreens();
+        printingScreen.setVisible(true);
+    }//GEN-LAST:event_menuPrintingMousePressed
+
+    private void menuFilterVersionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuFilterVersionMouseEntered
+        // TODO add your handling code here:
+        menuFilterVersion.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_menuFilterVersionMouseEntered
+
+    private void menuFilterVersionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuFilterVersionMouseExited
+        // TODO add your handling code here:
+        menuFilterVersion.setBackground(Color.WHITE);
+    }//GEN-LAST:event_menuFilterVersionMouseExited
+
+    private void menuFilterVersionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuFilterVersionMousePressed
+        // TODO add your handling code here:
+        closeAllScreens();
+        changeFilterScreen.setVisible(true);
+    }//GEN-LAST:event_menuFilterVersionMousePressed
+
+    private void menuInScanningMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuInScanningMouseEntered
+        // TODO add your handling code here:
+        menuInScanning.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_menuInScanningMouseEntered
+
+    private void menuInScanningMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuInScanningMouseExited
+        // TODO add your handling code here:
+        menuInScanning.setBackground(Color.WHITE);
+    }//GEN-LAST:event_menuInScanningMouseExited
+
+    private void menuInScanningMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuInScanningMousePressed
+        // TODO add your handling code here:
+        closeAllScreens();
+        inScanningScreen.setVisible(true);
+    }//GEN-LAST:event_menuInScanningMousePressed
+
+    private void menuOutScanningMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuOutScanningMouseEntered
+        // TODO add your handling code here:
+        menuOutScanning.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_menuOutScanningMouseEntered
+
+    private void menuOutScanningMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuOutScanningMouseExited
+        // TODO add your handling code here:
+        menuOutScanning.setBackground(Color.WHITE);
+    }//GEN-LAST:event_menuOutScanningMouseExited
+
+    private void menuOutScanningMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuOutScanningMousePressed
+        // TODO add your handling code here:
+        closeAllScreens();
+        outScanningScreen.setVisible(true);
+    }//GEN-LAST:event_menuOutScanningMousePressed
+
+    private void userToShowMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userToShowMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userToShowMouseEntered
+
+    private void userToShowMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userToShowMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userToShowMouseExited
+
+    private void userToShowMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userToShowMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userToShowMousePressed
+
+    private void menuReportsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuReportsMouseEntered
+        // TODO add your handling code here:
+        menuReports.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_menuReportsMouseEntered
+
+    private void menuReportsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuReportsMouseExited
+        // TODO add your handling code here:
+        menuReports.setBackground(Color.WHITE);
+    }//GEN-LAST:event_menuReportsMouseExited
+
+    private void menuReportsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuReportsMousePressed
+        // TODO add your handling code here:
+        closeAllScreens();
+        reportsScreen.setVisible(true);
+    }//GEN-LAST:event_menuReportsMousePressed
+
+    private void btnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseEntered
+        // TODO add your handling code here:
+        btnAdd.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_btnAddMouseEntered
+
+    private void btnAddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseExited
+        // TODO add your handling code here:
+        btnAdd.setBackground(Color.WHITE);
+    }//GEN-LAST:event_btnAddMouseExited
+
+    private void btnEditMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseEntered
+        // TODO add your handling code here:
+        btnEdit.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_btnEditMouseEntered
+
+    private void btnEditMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseExited
+        // TODO add your handling code here:
+        btnEdit.setBackground(Color.WHITE);
+    }//GEN-LAST:event_btnEditMouseExited
+
+    private void btnDeleteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseEntered
+        // TODO add your handling code here:
+        btnDelete.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_btnDeleteMouseEntered
+
+    private void btnDeleteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseExited
+        // TODO add your handling code here:
+        btnDelete.setBackground(Color.WHITE);
+    }//GEN-LAST:event_btnDeleteMouseExited
+
+    private void menuUserRightsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuUserRightsMouseEntered
+        // TODO add your handling code here:
+        menuUserRights.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_menuUserRightsMouseEntered
+
+    private void menuUserRightsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuUserRightsMouseExited
+        // TODO add your handling code here:
+        menuUserRights.setBackground(Color.WHITE);
+    }//GEN-LAST:event_menuUserRightsMouseExited
+
+    private void menuUserRightsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuUserRightsMousePressed
+        // TODO add your handling code here:
+        closeAllScreens();
+        cmbUser2.removeAllItems();
+        rightsScreen.setVisible(true);
+        loadUserTypeData();
+    }//GEN-LAST:event_menuUserRightsMousePressed
+    private void loadUserTypeData()
+    {
+        ArrayList<String> ar = obj.getUserTypes();
+        Iterator it = ar.iterator();
+        while(it.hasNext())
+        {
+            cmbUser2.addItem(it.next().toString());
+        }
+        ar.clear();
+    }
+    private void btnClearMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearMouseEntered
+        // TODO add your handling code here:
+        btnClear.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_btnClearMouseEntered
+
+    private void btnClearMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearMouseExited
+        // TODO add your handling code here:
+        btnClear.setBackground(Color.WHITE);
+    }//GEN-LAST:event_btnClearMouseExited
+
+    private void btnRightsSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRightsSaveMouseEntered
+        // TODO add your handling code here:
+        btnRightsSave.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_btnRightsSaveMouseEntered
+
+    private void btnRightsSaveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRightsSaveMouseExited
+        // TODO add your handling code here:
+        btnRightsSave.setBackground(Color.WHITE);
+    }//GEN-LAST:event_btnRightsSaveMouseExited
+
+    private void btnRightsClearMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRightsClearMouseEntered
+        // TODO add your handling code here:
+        btnRightsClear.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_btnRightsClearMouseEntered
+
+    private void btnRightsClearMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRightsClearMouseExited
+        // TODO add your handling code here:
+        btnRightsClear.setBackground(Color.WHITE);
+    }//GEN-LAST:event_btnRightsClearMouseExited
+
+    private void btnAddMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMousePressed
+        // TODO add your handling code here:
+        if(btnAdd.getText().trim().equals("Add"))
+        {
+        enableControlsForUserMaster();
+        btnAdd.setText("Save");
+        }
+        else
+        {
+            int check = 0;
+            if(activeUser1.isSelected())
+            {
+                check = 1;
+            }
+            int res = obj.blInsertUser(userIdText1.getText().trim(), userText1.getText().trim(), passText1.getText().trim(), typeCmb1.getSelectedItem().toString().trim(), String.valueOf(check), CurrentUser.getUserId(), new Date().toString());
+            if(res != 0)
+            {
+                JOptionPane.showMessageDialog(this, "Record saved successfully!","Message",JOptionPane.INFORMATION_MESSAGE);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this, "Record not saved.","ERROR",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnAddMousePressed
+
+    private void cmbUser2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbUser2ItemStateChanged
+        // TODO add your handling code here:
+        if(cmbUser2.getSelectedItem().equals("Administrator"))
+        {
+            setSetSelected(true);
+            setOptionsVisible(false);
+            return;
+        }
+        else
+        {
+            setSetSelected(false);
+            setOptionsVisible(true);
+            String rights = obj.dlGetUserRights(cmbUser2.getSelectedItem().toString().trim());
+            if(rights.contains("101"))
+            {
+                rightsAhuMaster.setSelected(true);
+            }
+            if(rights.contains("102"))
+            {
+                rightsUserMaster.setSelected(true);
+            }
+            if(rights.contains("103"))
+            {
+                rightsUserRights.setSelected(true);
+            }
+            if(rights.contains("104"))
+            {
+                rightsLabelPrinting.setSelected(true);
+            }
+            if(rights.contains("105"))
+            {
+                rightsFilterVesion.setSelected(true);
+            }
+            if(rights.contains("106"))
+            {
+                rightsInScanning.setSelected(true);
+            }
+            if(rights.contains("107"))
+            {
+                rightsOutScanning.setSelected(true);
+            }
+            if(rights.contains("108"))
+            {
+                rightsReports.setSelected(true);
+            }
+            }
+    }//GEN-LAST:event_cmbUser2ItemStateChanged
+
+    private void btnRightsSaveMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRightsSaveMousePressed
+        // TODO add your handling code here:
+        String selectedRights = "";
+        if(rightsAhuMaster.isSelected())
+        {
+            selectedRights += "101,";
+        }
+        if(rightsUserMaster.isSelected())
+        {
+            selectedRights += "102,";
+        }
+        if(rightsUserRights.isSelected())
+        {
+            selectedRights += "103,";
+        }
+        if(rightsLabelPrinting.isSelected())
+        {
+            selectedRights += "104,";
+        }
+        if(rightsFilterVesion.isSelected())
+        {
+            selectedRights += "105,";
+        }
+        if(rightsInScanning.isSelected())
+        {
+            selectedRights += "106,";
+        }
+        if(rightsOutScanning.isSelected())
+        {
+            selectedRights += "107,";
+        }
+        if(rightsReports.isSelected())
+        {
+            selectedRights += "108,";
+        }
+        String res = obj.updateRights(selectedRights, cmbUser2.getSelectedItem().toString().trim());
+        if(res.equals("Exception") || res.equals("0"))
+        {
+            JOptionPane.showMessageDialog(this, "Rights not updated.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Rights updated successfully.", "Message", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnRightsSaveMousePressed
+
+    private void btnRightsClearMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRightsClearMousePressed
+        // TODO add your handling code here:
+        setSetSelected(false);
+    }//GEN-LAST:event_btnRightsClearMousePressed
+
+    private void btnAdd1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdd1MouseEntered
+        // TODO add your handling code here:
+        btnAdd1.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_btnAdd1MouseEntered
+
+    private void btnAdd1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdd1MouseExited
+        // TODO add your handling code here:
+        btnAdd1.setBackground(Color.WHITE);
+    }//GEN-LAST:event_btnAdd1MouseExited
+
+    private void btnAdd1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdd1MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAdd1MousePressed
+
+    private void btnEdit1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEdit1MouseEntered
+        // TODO add your handling code here:
+        btnEdit1.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_btnEdit1MouseEntered
+
+    private void btnEdit1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEdit1MouseExited
+        // TODO add your handling code here:
+        btnEdit1.setBackground(Color.WHITE);
+    }//GEN-LAST:event_btnEdit1MouseExited
+
+    private void btnDelete1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelete1MouseEntered
+        // TODO add your handling code here:
+        btnDelete1.setBackground(new Color(222,222,222));
+    }//GEN-LAST:event_btnDelete1MouseEntered
+
+    private void btnDelete1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelete1MouseExited
+        // TODO add your handling code here:
+        btnDelete1.setBackground(Color.WHITE);
+    }//GEN-LAST:event_btnDelete1MouseExited
+
+    private void btnClear1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClear1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnClear1MouseEntered
+
+    private void btnClear1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClear1MouseExited
+        // TODO add your handling code here:
+        btnAdd1.setBackground(Color.WHITE);
+    }//GEN-LAST:event_btnClear1MouseExited
+    private void setOptionsVisible(boolean flag)
+    {
+        rightsAhuMaster.setEnabled(flag);
+        rightsUserMaster.setEnabled(flag);
+        rightsUserRights.setEnabled(flag);
+        rightsLabelPrinting.setEnabled(flag);
+        rightsFilterVesion.setEnabled(flag);
+        rightsInScanning.setEnabled(flag);
+        rightsOutScanning.setEnabled(flag);
+        rightsReports.setEnabled(flag);
+    }
+    
+    private void setSetSelected(boolean flag)
+    {
+            rightsAhuMaster.setSelected(flag);
+            rightsUserMaster.setSelected(flag);
+            rightsUserRights.setSelected(flag);
+            rightsLabelPrinting.setSelected(flag);
+            rightsFilterVesion.setSelected(flag);
+            rightsInScanning.setSelected(flag);
+            rightsOutScanning.setSelected(flag);
+            rightsReports.setSelected(flag);
+    }
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InstantiationException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnsupportedLookAndFeelException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            new MainScreen().setVisible(true);
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox activeUser1;
+    private javax.swing.JTextField ahuId1;
+    private javax.swing.JInternalFrame ahuScreen;
+    private javax.swing.JTable ahuTable;
+    private javax.swing.JTextField area1;
+    private javax.swing.JLabel btnAdd;
+    private javax.swing.JLabel btnAdd1;
+    private javax.swing.JLabel btnClear;
+    private javax.swing.JLabel btnClear1;
+    private javax.swing.JLabel btnDelete;
+    private javax.swing.JLabel btnDelete1;
+    private javax.swing.JLabel btnEdit;
+    private javax.swing.JLabel btnEdit1;
+    private javax.swing.JLabel btnRightsClear;
+    private javax.swing.JLabel btnRightsSave;
+    private javax.swing.JInternalFrame changeFilterScreen;
+    private javax.swing.JComboBox<String> cmbUser2;
+    private javax.swing.JInternalFrame inScanningScreen;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JLabel menuAhu;
+    private javax.swing.JLabel menuFilterVersion;
+    private javax.swing.JLabel menuInScanning;
+    private javax.swing.JLabel menuLogout;
+    private javax.swing.JLabel menuOutScanning;
+    private javax.swing.JLabel menuPrinting;
+    private javax.swing.JLabel menuReports;
+    private javax.swing.JLabel menuUser;
+    private javax.swing.JLabel menuUserRights;
+    private javax.swing.JInternalFrame outScanningScreen;
+    private javax.swing.JTextField passText1;
+    private javax.swing.JInternalFrame printingScreen;
+    private javax.swing.JInternalFrame reportsScreen;
+    private javax.swing.JCheckBox rightsAhuMaster;
+    private javax.swing.JCheckBox rightsFilterVesion;
+    private javax.swing.JCheckBox rightsInScanning;
+    private javax.swing.JCheckBox rightsLabelPrinting;
+    private javax.swing.JCheckBox rightsOutScanning;
+    private javax.swing.JCheckBox rightsReports;
+    private javax.swing.JInternalFrame rightsScreen;
+    private javax.swing.JCheckBox rightsUserMaster;
+    private javax.swing.JCheckBox rightsUserRights;
+    private javax.swing.JComboBox<String> typeCmb1;
+    private javax.swing.JTextField userIdText1;
+    private javax.swing.JInternalFrame userScreen;
+    private javax.swing.JTable userTable;
+    private javax.swing.JTextField userText1;
+    private javax.swing.JLabel userToShow;
+    private javax.swing.JLabel welcomeText2;
+    // End of variables declaration//GEN-END:variables
+}
